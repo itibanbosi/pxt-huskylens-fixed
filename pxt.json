@@ -1,7 +1,7 @@
 {
     "name": "huskylens-i2c-fixed",
-    "version": "0.0.1",
-    "description": "HUSKYLENS I2C receive buffer and timeout fixes",
+    "version": "0.0.2",
+    "description": "HUSKYLENSのI2C通信修正版・日本語ブロック対応",
     "license": "MIT",
     "dependencies": {
         "core": "*"

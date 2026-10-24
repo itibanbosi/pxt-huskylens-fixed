@@ -12,71 +12,71 @@
  * @date  2020-3-17
 */
 enum Content1 {
-    //% block="X center"
+    //% block="中心のX座標"
     xCenter = 1,
-    //% block="Y center"
+    //% block="中心のY座標"
     yCenter = 2,
-    //% block="width"
+    //% block="幅"
     width = 3,
-    //% block="height"
+    //% block="高さ"
     height = 4
 }
 
 enum Content2 {
-    //% block="X beginning"
+    //% block="始点のX座標"
     xOrigin = 1,
-    //% block="Y beginning"
+    //% block="始点のY座標"
     yOrigin = 2,
-    //% block="X endpoint"
+    //% block="終点のX座標"
     xTarget = 3,
-    //% block="Y endpoint"
+    //% block="終点のY座標"
     yTarget = 4
 }
 
 enum Content3 {
     //% block="ID"
     ID = 5,
-    //% block="X center"
+    //% block="中心のX座標"
     xCenter = 1,
-    //% block="Y center"
+    //% block="中心のY座標"
     yCenter = 2,
-    //% block="width"
+    //% block="幅"
     width = 3,
-    //% block="height"
+    //% block="高さ"
     height = 4
 }
 
 enum Content4 {
     //% block="ID"
     ID = 5,
-    //% block="X beginning"
+    //% block="始点のX座標"
     xOrigin = 1,
-    //% block="Y beginning"
+    //% block="始点のY座標"
     yOrigin = 2,
-    //% block="X endpoint"
+    //% block="終点のX座標"
     xTarget = 3,
-    //% block="Y endpoint"
+    //% block="終点のY座標"
     yTarget = 4
 
 }
 
 enum HUSKYLENSResultType_t {
-    //%block="frame"
+    //%block="枠"
     HUSKYLENSResultBlock = 1,
-    //%block="arrow"
+    //%block="矢印"
     HUSKYLENSResultArrow = 2,
 }
 
 enum HUSKYLENSMode{
-    //%block="save"
+    //%block="保存"
     SAVE,
-    //%block="load"
+    //%block="読み込み"
     LOAD,
 }
 enum HUSKYLENSphoto{
-    //%block="photo"
+    //%block="写真"
     PHOTO,
-    //%block="screenshot"
+    //%block="スクリーンショット"
     SCREENSHOT
 }
 enum protocolCommand {
@@ -102,29 +102,29 @@ enum protocolCommand {
 }
 
 enum protocolAlgorithm {
-    //%block="Face Recognition"
+    //%block="顔認識"
     ALGORITHM_FACE_RECOGNITION = 0,
-    //%block="Object Tracking"
+    //%block="物体追跡"
     ALGORITHM_OBJECT_TRACKING = 1,
-    //%block="Object Recognition"
+    //%block="物体認識"
     ALGORITHM_OBJECT_RECOGNITION = 2,
-    //%block="Line Tracking"
+    //%block="ライン追跡"
     ALGORITHM_LINE_TRACKING = 3,
-    //%block="Color Recognition"
+    //%block="色認識"
     ALGORITHM_COLOR_RECOGNITION = 4,
-    //%block="Tag Recognition"
+    //%block="タグ認識"
     ALGORITHM_TAG_RECOGNITION = 5,
-    //%block="Object classification"
+    //%block="物体分類"
     OBJECTCLASSIFICATION,
-    //%block="QR recogmition (Edu only)"
+    //%block="QRコード認識（教育版のみ）"
     QRRECOGMITION,
-    //%block="Barcode recognition (Edu only)"
+    //%block="バーコード認識（教育版のみ）"
     BARCODERECOGNITION,
 
 }
 
 
-//% weight=100  color=#e7660b icon="\uf083"  block="HuskyLens"
+//% weight=100  color=#e7660b icon="\uf083"  block="ハスキーレンズ"
 namespace huskylens {
     let protocolPtr: number[][] = [[0], [0], [0], [0], [0], [0], [0], [0], [0], [0]]
     let Protocol_t: number[] = [0, 0, 0, 0, 0, 0]
@@ -153,8 +153,10 @@ namespace huskylens {
     let content_read_end = false;
 
     let lastRequestOK = false;
-    /** Whether the most recent data request completed successfully. */
-    //% block="HuskyLens last request succeeded"
+    /**
+     * ハスキーレンズの直前のデータ取得に成功した。
+     */
+    //% block="ハスキーレンズの直前のデータ取得に成功した"
     export function isRequestSuccessful(): boolean {
         return lastRequestOK;
     }
@@ -164,9 +166,9 @@ namespace huskylens {
     
 
     /**
-     * HuskyLens init I2C (up to five attempts)
+     * ハスキーレンズのI2Cを初期化する（最大5回）。
      */
-    //%block="HuskyLens initialize I2C (up to five attempts)"
+    //%block="ハスキーレンズのI2Cを初期化する（最大5回）"
     //% weight=90
     export function initI2c(): boolean {
         receive_index = 0;
@@ -177,9 +179,9 @@ namespace huskylens {
         return connected;
     }
     /**
-     * HuskyLens change mode algorithm (up to three attempts).
+     * ハスキーレンズの認識モードを mode にする。
      */
-    //%block="HuskyLens switch algorithm to %mode"
+    //%block="ハスキーレンズの認識モードを %mode にする"
     //% weight=85
     export function initMode(mode: protocolAlgorithm): boolean {
         for (let attempt = 0; attempt < 3; attempt++) {
@@ -192,10 +194,10 @@ namespace huskylens {
         return false;
     }
     /**
-     * HuskyLens requests data and stores it in the result.
+     * ハスキーレンズのデータを1回取得して結果に保存する。
      */
 
-    //% block="HuskyLens request data once and save into the result"
+    //% block="ハスキーレンズのデータを1回取得して結果に保存する"
     //% weight=80
     export function request(): void {
         protocolWriteCommand(protocolCommand.COMMAND_REQUEST)
@@ -207,17 +209,17 @@ namespace huskylens {
         }
     }
     /**
-     * HuskyLens get the number of the learned ID from result.
+     * ハスキーレンズの結果にある学習済みIDの総数。
      */
-    //%block="HuskyLens get a total number of learned IDs from the result"
+    //%block="ハスキーレンズの結果にある学習済みIDの総数"
     //% weight=79
     export function getIds(): number {
         return Protocol_t[2];
     }
     /**
-     * The box or arrow HuskyLens got from result appears in screen?
+     * ハスキーレンズの結果に Ht がある。
      */
-    //%block="HuskyLens check if %Ht is on screen from the result"
+    //%block="ハスキーレンズの結果に %Ht がある"
     //% weight=78
     export function isAppear_s(Ht: HUSKYLENSResultType_t): boolean {
         switch (Ht) {
@@ -230,9 +232,9 @@ namespace huskylens {
         }
     }
     /**
-     * HuskyLens get the parameter of box near the screen center from result.
+     * ハスキーレンズの結果で画面中央に最も近い枠の data。
      */
-    //% block="HuskyLens get %data of frame closest to the center of screen from the result"
+    //% block="ハスキーレンズの結果で画面中央に最も近い枠の %data"
     //% weight=77
     export function readBox_s(data: Content3): number {
         let hk_x
@@ -255,9 +257,9 @@ namespace huskylens {
         return hk_x;
     }
     /**
-     * HuskyLens get the parameter of arrow near the screen center from result.
+     * ハスキーレンズの結果で画面中央に最も近い矢印の data。
      */
-    //% block="HuskyLens get %data of arrow closest to the center of screen from the result"
+    //% block="ハスキーレンズの結果で画面中央に最も近い矢印の %data"
     //% weight=77
     export function readArrow_s(data: Content4): number {
         let hk_x
@@ -280,10 +282,10 @@ namespace huskylens {
         return hk_x;
     }
     /**
-     * The ID Huskylens got from result has been learned before?
-     * @param id to id ,eg: 1
+     * ハスキーレンズの結果でID id は学習済み。
+     * @param id 対象のID,eg: 1
      */
-    //% block="HuskyLens check if ID %id is learned from the result"
+    //% block="ハスキーレンズの結果でID %id は学習済み"
     //% weight=76
     export function isLearned(id: number): boolean {
         let hk_x = countLearnedIDs();
@@ -291,10 +293,10 @@ namespace huskylens {
         return false;
     }
     /**
-     * The box or arrow corresponding to ID obtained by HuskyLens from result appears in screen？
-     * @param id to id ,eg: 1
+     * ハスキーレンズの結果にID id の Ht がある。
+     * @param id 対象のID,eg: 1
      */
-    //% block="HuskyLens check if ID %id %Ht is on screen from the result"
+    //% block="ハスキーレンズの結果にID %id の %Ht がある"
     //% weight=75
     export function isAppear(id: number, Ht: HUSKYLENSResultType_t): boolean {
         switch (Ht) {
@@ -307,10 +309,10 @@ namespace huskylens {
         }
     }
     /**
-     * HuskyLens get the parameter of the box corresponding to ID from result.
-     * @param id to id ,eg: 1
+     * ハスキーレンズの結果でID id の枠の number1。
+     * @param id 対象のID,eg: 1
      */
-    //%block="HuskyLens get  $number1 of ID $id frame from the result"
+    //%block="ハスキーレンズの結果でID $id の枠の $number1"
     //% weight=65
     export function readeBox( id: number,number1: Content1): number {
         let hk_y = cycle_block(id, 1);
@@ -334,11 +336,11 @@ namespace huskylens {
         return hk_x;
     }
      /**
-     * HuskyLens get the parameter of the arrow corresponding to ID from result.
-     * @param id to id ,eg: 1
+     * ハスキーレンズの結果でID id の矢印の number1。
+     * @param id 対象のID,eg: 1
      */
 
-    //%block="HuskyLens get $number1 of ID $id arrow from the result"
+    //%block="ハスキーレンズの結果でID $id の矢印の $number1"
     //% weight=60
     export function readeArrow(id: number,number1: Content2): number {
         let hk_y = cycle_arrow(id, 1);
@@ -365,10 +367,9 @@ namespace huskylens {
         return hk_x;
     }
     /**
-     * HuskyLens get the box or arrow total number from result.
-     * 
+     * ハスキーレンズの結果にある Httotal の総数。
      */
-    //%block="HuskyLens get a total number of %Httotal from the result"
+    //%block="ハスキーレンズの結果にある %Httotal の総数"
     //% weight=90
     //% advanced=true
     export function getBox(Ht: HUSKYLENSResultType_t): number {
@@ -382,10 +383,10 @@ namespace huskylens {
         }
     }
     /**
-     * HuskyLens get the parameter of Nth box from result.
-     * @param index to index ,eg: 1
+     * ハスキーレンズの結果で index 番目の枠の data。
+     * @param index 取得する順番,eg: 1
      */
-    //% block="HuskyLens get $data of the No. $index frame from the result"
+    //% block="ハスキーレンズの結果で $index 番目の枠の $data"
     //% weight=60
     //% advanced=true
     export function readBox_ss(index: number, data: Content3): number {
@@ -409,10 +410,10 @@ namespace huskylens {
         
     }
     /**
-     * HuskyLens get the parameter of the Nth arrow from result.
-     * @param index to index ,eg: 1
-    */
-    //% block="HuskyLens get $data of the No. $index arrow from the result"
+     * ハスキーレンズの結果で index 番目の矢印の data。
+     * @param index 取得する順番,eg: 1
+     */
+    //% block="ハスキーレンズの結果で $index 番目の矢印の $data"
     //% weight=60
     //% advanced=true
     export function readArrow_ss(index: number, data: Content4): number {
@@ -436,10 +437,10 @@ namespace huskylens {
         return hk_x;
     }
     /**
-     * HuskyLens get the total number of box or arrow from result.
-     * @param id to id ,eg: 1
+     * ハスキーレンズの結果にあるID id の Httotal の総数。
+     * @param id 対象のID,eg: 1
      */
-    //%block="HuskyLens get a total number of ID %id %Httotal from the result"
+    //%block="ハスキーレンズの結果にあるID %id の %Httotal の総数"
     //% weight=55
     //% advanced=true
     export function getBox_S(id: number, Ht: HUSKYLENSResultType_t): number {
@@ -453,11 +454,11 @@ namespace huskylens {
         }
     }
     /**
-     * HuskyLens get the parameter of the Nth box corresponding to ID from result.
-     * @param id to id ,eg: 1
-     * @param index to index ,eg: 1
+     * ハスキーレンズの結果でID id の index 番目の枠の number1。
+     * @param id 対象のID,eg: 1
+     * @param index 取得する順番,eg: 1
      */
-    //%block="HuskyLens get $number1 of the ID $id  No. $index frame from the result"
+    //%block="ハスキーレンズの結果でID $id の $index 番目の枠の $number1"
     //% weight=45
     //% advanced=true
     export function readeBox_index(id: number, index: number, number1: Content1): number {
@@ -484,11 +485,11 @@ namespace huskylens {
         return hk_x;
     }
     /**
-     * HuskyLens get the parameter of the Nth arrow corresponding to ID from result.
-     * @param id to id ,eg: 1
-     * @param index to index ,eg: 1
+     * ハスキーレンズの結果でID id の index 番目の矢印の number1。
+     * @param id 対象のID,eg: 1
+     * @param index 取得する順番,eg: 1
      */
-    //%block="HuskyLens get $number1 of the ID $id No. $index arrow from the result"
+    //%block="ハスキーレンズの結果でID $id の $index 番目の矢印の $number1"
     //% weight=35
     //% advanced=true
     export function readeArrow_index(index: number, id: number, number1: Content2): number {
@@ -515,30 +516,30 @@ namespace huskylens {
         return hk_x;
     }
     /**
-     * Huskylens automatic learning ID
-     * @param id to id ,eg: 1
+     * ハスキーレンズでID id を1回自動学習する。
+     * @param id 対象のID,eg: 1
      */
-    //%block="HuskyLens learn ID %id once automatically"
+    //%block="ハスキーレンズでID %id を1回自動学習する"
     //% weight=30
     //% advanced=true
     export function writeLearn1(id: number):void{
         while(!writeAlgorithm(id, 0X36));
     }
     /**
-     * Huskylens forget all learning data of the current algorithm
+     * ハスキーレンズの現在の認識モードの学習データをすべて消す。
      */
-    //%block="HuskyLens forget all learning data of the current algorithm"
+    //%block="ハスキーレンズの現在の認識モードの学習データをすべて消す"
     //% weight=29
     //% advanced=true
     export function forgetLearn():void{
         while(!writeAlgorithm(0x47, 0X37));
     }
     /**
-     * Set ID name
-     * @param id to id ,eg: 1
-     * @param name to name ,eg: "DFRobot"
+     * ハスキーレンズの現在の認識モードでID id の名前を name にする。
+     * @param id 対象のID,eg: 1
+     * @param name 表示する文字（英数字）,eg: "DFRobot"
      */
-    //%block="HuskyLens name ID %id of the current algorithm as %name"
+    //%block="ハスキーレンズの現在の認識モードでID %id の名前を %name にする"
     //% weight=28
     //% advanced=true
     export function writeName(id:number,name:string):void{
@@ -562,12 +563,12 @@ namespace huskylens {
         }while(!wait(protocolCommand.COMMAND_RETURN_OK));
     }
     /**
-     * Display characters on the screen
-     * @param name to name ,eg: "DFRobot"
-     * @param x to x ,eg: 150
-     * @param y to y ,eg: 30
+     * ハスキーレンズの画面のX x Y y に文字 name を表示する。
+     * @param name 表示する文字（英数字）,eg: "DFRobot"
+     * @param x X座標,eg: 150
+     * @param y Y座標,eg: 30
      */
-    //%block="HuskyLens show custom texts %name at position x %x y %y on screen"
+    //%block="ハスキーレンズの画面のX %x Y %y に文字 %name を表示する"
     //% weight=27
     //% advanced=true
     //% x.min=0 x.max=319
@@ -597,18 +598,18 @@ namespace huskylens {
         }while(!wait(protocolCommand.COMMAND_RETURN_OK));
     }
     /**
-     * HuskyLens clear characters in the screen
+     * ハスキーレンズの画面に表示した文字をすべて消す。
      */
-    //%block="HuskyLens clear all custom texts on screen"
+    //%block="ハスキーレンズの画面に表示した文字をすべて消す"
     //% weight=26
     //% advanced=true
     export function clearOSD():void{
         while(!writeAlgorithm(0x45, 0X35));
     }
     /**
-     * Photos and screenshots
+     * ハスキーレンズで request を撮影してSDカードに保存する。
      */
-    //%block="HuskyLens take %request and save to SD card"
+    //%block="ハスキーレンズで %request を撮影してSDカードに保存する"
     //% weight=25
     //% advanced=true
     export function takePhotoToSDCard(request:HUSKYLENSphoto):void{
@@ -624,9 +625,9 @@ namespace huskylens {
         } 
     }
     /**
-     * Save data model
+     * ハスキーレンズの現在の学習データをSDカードの data 番のモデルとして command する。
      */
-    //%block="HuskyLens %command current algorithm data as No. %data model of SD card"
+    //%block="ハスキーレンズの現在の学習データをSDカードの %data 番のモデルとして %command する"
     //% weight=24
     //% advanced=true
     //% data.min=0 data.max=5
