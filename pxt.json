@@ -1,0 +1,18 @@
+{
+    "name": "huskylens-i2c-fixed",
+    "version": "0.0.1",
+    "description": "HUSKYLENS I2C receive buffer and timeout fixes",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "huskylens.ts",
+        "README.md"
+    ],
+    "testFiles": [],
+    "supportedTargets": [
+        "microbit"
+    ],
+    "preferredEditor": "tsprj"
+}
