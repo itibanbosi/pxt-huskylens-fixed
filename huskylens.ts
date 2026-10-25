@@ -159,6 +159,20 @@ namespace huskylens {
         return lastRequestOK;
     }
 
+    /** Initialize I2C until success, using the original statement block. */
+    //% block="HuskyLens initialize I2C until success"
+    //% weight=90
+    export function initI2c(): void {
+        while (!tryInitI2c()) basic.pause(10);
+    }
+
+    /** Select the recognition algorithm until success. */
+    //% block="HuskyLens switch algorithm to %mode"
+    //% weight=85
+    export function initMode(mode: protocolAlgorithm): void {
+        while (!tryInitMode(mode)) basic.pause(10);
+    }
+
     let command: number
     let content: number
     
@@ -166,9 +180,10 @@ namespace huskylens {
     /**
      * HuskyLens init I2C (up to five attempts)
      */
-    //%block="HuskyLens initialize I2C (up to five attempts)"
+    //%block="HuskyLens try initialize I2C (up to five attempts)"
+    //% advanced=true
     //% weight=90
-    export function initI2c(): boolean {
+    export function tryInitI2c(): boolean {
         receive_index = 0;
         m_i = 16;
         lastRequestOK = false;
@@ -179,9 +194,10 @@ namespace huskylens {
     /**
      * HuskyLens change mode algorithm (up to three attempts).
      */
-    //%block="HuskyLens switch algorithm to %mode"
+    //%block="HuskyLens try switch algorithm to %mode"
+    //% advanced=true
     //% weight=85
-    export function initMode(mode: protocolAlgorithm): boolean {
+    export function tryInitMode(mode: protocolAlgorithm): boolean {
         for (let attempt = 0; attempt < 3; attempt++) {
             if (writeAlgorithm(mode, protocolCommand.COMMAND_REQUEST_ALGORITHM)) {
                 yes();
